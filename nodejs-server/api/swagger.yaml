@@ -1,0 +1,154 @@
+---
+swagger: "2.0"
+info:
+  description: "This is a photo application concept"
+  version: "1.0.0"
+  title: "InnrCircl"
+  contact:
+    email: "farye@aeekay.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "virtserver.swaggerhub.com"
+basePath: "/Aynrgy/InnrCircl/1.0.0"
+tags:
+- name: "admins"
+  description: "Secured Admin-only calls"
+- name: "developers"
+  description: "Operations available to regular developers"
+- name: "users"
+  description: "Operations available to regular users"
+schemes:
+- "https"
+paths:
+  /user:
+    get:
+      tags:
+      - "admins"
+      - "developers"
+      - "users"
+      summary: "get the user with the id following the URI. For example /user/$id\
+        \ or /user/$username"
+      description: "Returns the user with the user id or the username. This should\
+        \ return the JSON string with all of the required stuff. \n"
+      operationId: "getUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "query"
+        description: "the id of the user (optional)"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "username"
+        in: "query"
+        description: "The username of the user"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Return the user information for the user"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "Admins"
+  /albums:
+    get:
+      tags:
+      - "developers"
+      - "users"
+      - "admins"
+      summary: "return albums owned by user"
+      description: "Returns all of the albums owned by the user. If a parameter is\
+        \ entered, then return that album if it is valid. \n"
+      operationId: "getAlbums"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "albumId"
+        in: "query"
+        description: "pass the album id of the album that is to be returned (optional)"
+        required: false
+        type: "integer"
+        maximum: 50
+        minimum: 0
+        format: "int32"
+      responses:
+        200:
+          description: "Return all albums for this user"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Album"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "Developers"
+    post:
+      tags:
+      - "users"
+      summary: "adds an album"
+      description: "Adds an album to the system"
+      operationId: "addAlbum"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        201:
+          description: "item created"
+        400:
+          description: "invalid input, object invalid"
+        409:
+          description: "an existing item already exists"
+      x-swagger-router-controller: "Users"
+definitions:
+  Album:
+    type: "object"
+    required:
+    - "albumOwner"
+    - "creationDate"
+    - "id"
+    - "name"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        example: "d290f1ee-6c54-4b01-90e6-d701748f0851"
+      name:
+        type: "string"
+        example: "Widget Adapter"
+      creationDate:
+        type: "string"
+        format: "int32"
+        example: "2016-08-29T09:12:33.001Z"
+      albumOwner:
+        $ref: "#/definitions/User"
+  User:
+    type: "object"
+    required:
+    - "id"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        example: "d290f1ee-6c54-4b01-90e6-d701748f0851"
+      username:
+        type: "string"
+        example: "darkknight"
+      email:
+        type: "string"
+        example: "darkknight@gmail.com"
+      phone:
+        type: "string"
+        example: "408-841-3813"
+      website:
+        type: "string"
+        format: "url"
+        example: "http://aeekay.com"

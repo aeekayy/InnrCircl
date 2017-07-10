@@ -1,0 +1,347 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: contacts; Type: TABLE; Schema: public; Owner: mean; Tablespace: 
+--
+
+CREATE TABLE contacts (
+    id integer NOT NULL,
+    customer_name character varying(256),
+    customer_email character varying(256),
+    customer_comment text,
+    created timestamp without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+
+ALTER TABLE public.contacts OWNER TO mean;
+
+--
+-- Name: contacts_id_seq; Type: SEQUENCE; Schema: public; Owner: mean
+--
+
+CREATE SEQUENCE contacts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.contacts_id_seq OWNER TO mean;
+
+--
+-- Name: contacts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mean
+--
+
+ALTER SEQUENCE contacts_id_seq OWNED BY contacts.id;
+
+
+--
+-- Name: contractors; Type: TABLE; Schema: public; Owner: mean; Tablespace: 
+--
+
+CREATE TABLE contractors (
+    id integer NOT NULL,
+    username character varying(256) NOT NULL,
+    email character varying(256) NOT NULL,
+    created timestamp without time zone DEFAULT timezone('utc'::text, now())
+);
+
+
+ALTER TABLE public.contractors OWNER TO mean;
+
+--
+-- Name: contractors_id_seq; Type: SEQUENCE; Schema: public; Owner: mean
+--
+
+CREATE SEQUENCE contractors_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.contractors_id_seq OWNER TO mean;
+
+--
+-- Name: contractors_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mean
+--
+
+ALTER SEQUENCE contractors_id_seq OWNED BY contractors.id;
+
+
+--
+-- Name: events; Type: TABLE; Schema: public; Owner: mean; Tablespace: 
+--
+
+CREATE TABLE events (
+    id integer NOT NULL,
+    event_name character varying(256),
+    creator integer,
+    eventstart timestamp without time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
+    eventend timestamp without time zone DEFAULT (timezone('utc'::text, now()) + '01:00:00'::interval) NOT NULL,
+    created timestamp without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+
+ALTER TABLE public.events OWNER TO mean;
+
+--
+-- Name: events_id_seq; Type: SEQUENCE; Schema: public; Owner: mean
+--
+
+CREATE SEQUENCE events_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.events_id_seq OWNER TO mean;
+
+--
+-- Name: events_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mean
+--
+
+ALTER SEQUENCE events_id_seq OWNED BY events.id;
+
+
+--
+-- Name: quotes; Type: TABLE; Schema: public; Owner: mean; Tablespace: 
+--
+
+CREATE TABLE quotes (
+    id integer NOT NULL,
+    quote character varying(256) NOT NULL,
+    author character varying(128),
+    created timestamp without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+
+ALTER TABLE public.quotes OWNER TO mean;
+
+--
+-- Name: quotes_id_seq; Type: SEQUENCE; Schema: public; Owner: mean
+--
+
+CREATE SEQUENCE quotes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.quotes_id_seq OWNER TO mean;
+
+--
+-- Name: quotes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mean
+--
+
+ALTER SEQUENCE quotes_id_seq OWNED BY quotes.id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: mean
+--
+
+ALTER TABLE ONLY contacts ALTER COLUMN id SET DEFAULT nextval('contacts_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: mean
+--
+
+ALTER TABLE ONLY contractors ALTER COLUMN id SET DEFAULT nextval('contractors_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: mean
+--
+
+ALTER TABLE ONLY events ALTER COLUMN id SET DEFAULT nextval('events_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: mean
+--
+
+ALTER TABLE ONLY quotes ALTER COLUMN id SET DEFAULT nextval('quotes_id_seq'::regclass);
+
+
+--
+-- Data for Name: contacts; Type: TABLE DATA; Schema: public; Owner: mean
+--
+
+COPY contacts (id, customer_name, customer_email, customer_comment, created) FROM stdin;
+1	Andre Knight	arkanityinchdd@gmail.com	Hey there	2017-05-24 17:25:56.076297
+\.
+
+
+--
+-- Name: contacts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mean
+--
+
+SELECT pg_catalog.setval('contacts_id_seq', 3, true);
+
+
+--
+-- Data for Name: contractors; Type: TABLE DATA; Schema: public; Owner: mean
+--
+
+COPY contractors (id, username, email, created) FROM stdin;
+1	aeekay	farye@aeekay.com	2017-03-30 16:01:12.208805
+\.
+
+
+--
+-- Name: contractors_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mean
+--
+
+SELECT pg_catalog.setval('contractors_id_seq', 1, true);
+
+
+--
+-- Data for Name: events; Type: TABLE DATA; Schema: public; Owner: mean
+--
+
+COPY events (id, event_name, creator, eventstart, eventend, created) FROM stdin;
+1	Meeting with Jared	1	2017-03-30 16:14:42.10078	2017-03-30 17:14:42.10078	2017-03-30 16:14:42.10078
+\.
+
+
+--
+-- Name: events_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mean
+--
+
+SELECT pg_catalog.setval('events_id_seq', 1, true);
+
+
+--
+-- Data for Name: quotes; Type: TABLE DATA; Schema: public; Owner: mean
+--
+
+COPY quotes (id, quote, author, created) FROM stdin;
+1	Prayer does not equip us for greater works - prayer is the greater work.	Oswald Chambers	2017-03-28 16:31:35.923429
+2	If you spend too much time thinking about a thing, you'll never get it done.	Bruce Lee	2017-03-28 16:33:54.704454
+3	What lies behind you and what lies in front of you, pales in comparison to what lies inside of you.	Ralph Waldo Emerson	2017-03-28 16:35:20.213282
+4	No act of kindness, no matter how small, is ever wasted.	Aesop	2017-03-28 16:36:15.046011
+5	If you gaze long enough into an abyss, the abyss will gaze back into you.	Friedrich Nietzsche	2017-03-28 16:37:39.863999
+\.
+
+
+--
+-- Name: quotes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mean
+--
+
+SELECT pg_catalog.setval('quotes_id_seq', 5, true);
+
+
+--
+-- Name: contacts_pkey; Type: CONSTRAINT; Schema: public; Owner: mean; Tablespace: 
+--
+
+ALTER TABLE ONLY contacts
+    ADD CONSTRAINT contacts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: contractors_email_key; Type: CONSTRAINT; Schema: public; Owner: mean; Tablespace: 
+--
+
+ALTER TABLE ONLY contractors
+    ADD CONSTRAINT contractors_email_key UNIQUE (email);
+
+
+--
+-- Name: contractors_pkey; Type: CONSTRAINT; Schema: public; Owner: mean; Tablespace: 
+--
+
+ALTER TABLE ONLY contractors
+    ADD CONSTRAINT contractors_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: contractors_username_key; Type: CONSTRAINT; Schema: public; Owner: mean; Tablespace: 
+--
+
+ALTER TABLE ONLY contractors
+    ADD CONSTRAINT contractors_username_key UNIQUE (username);
+
+
+--
+-- Name: events_pkey; Type: CONSTRAINT; Schema: public; Owner: mean; Tablespace: 
+--
+
+ALTER TABLE ONLY events
+    ADD CONSTRAINT events_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: quotes_pkey; Type: CONSTRAINT; Schema: public; Owner: mean; Tablespace: 
+--
+
+ALTER TABLE ONLY quotes
+    ADD CONSTRAINT quotes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: quotes_quote_key; Type: CONSTRAINT; Schema: public; Owner: mean; Tablespace: 
+--
+
+ALTER TABLE ONLY quotes
+    ADD CONSTRAINT quotes_quote_key UNIQUE (quote);
+
+
+--
+-- Name: events_creator_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mean
+--
+
+ALTER TABLE ONLY events
+    ADD CONSTRAINT events_creator_fkey FOREIGN KEY (creator) REFERENCES contractors(id);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

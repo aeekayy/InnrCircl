@@ -1,5 +1,15 @@
 'use strict';
 
+exports.deleteUserById = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+  * userId (Long)
+  * api_key (String)
+  **/
+  // no response value expected for this operation
+  res.end();
+}
+
 exports.getAlbums = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -72,33 +82,10 @@ exports.getUser = function(args, res, next) {
   
 }
 
-exports.getUser_1 = function(args, res, next) {
+exports.getUserById = function(args, res, next) {
   /**
    * parameters expected in the args:
   * userId (Integer)
-  **/
-    var examples = {};
-  examples['application/json'] = [ {
-  "website" : "http://aeekay.com",
-  "phone" : "408-841-3813",
-  "id" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
-  "email" : "darkknight@gmail.com",
-  "username" : "darkknight"
-} ];
-  if(Object.keys(examples).length > 0) {
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
-    res.end();
-  }
-  
-}
-
-exports.getUser_2 = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * username (String)
   **/
     var examples = {};
   examples['application/json'] = [ {

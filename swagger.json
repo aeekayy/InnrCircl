@@ -291,7 +291,7 @@
       }
     }
   },
+  "schemes" : [ "https" ],
   "host" : "virtserver.swaggerhub.com",
-  "basePath" : "/Aynrgy/InnrCircl/1.0.0",
-  "schemes" : [ "https" ]
+  "basePath" : "/Aynrgy/InnrCircl/1.0.0"
 }

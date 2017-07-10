@@ -56,6 +56,63 @@ paths:
         400:
           description: "bad input parameter"
       x-swagger-router-controller: "Admins"
+  /user/{id}:
+    get:
+      tags:
+      - "admins"
+      - "developers"
+      - "users"
+      summary: "get the user with the id following the URI. For example /user/$id"
+      description: "Returns the user with the user id or the username. This should\
+        \ return the JSON string with all of the required stuff. \n"
+      operationId: "getUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "query"
+        description: "the id of the user (optional)"
+        required: false
+        type: "integer"
+        format: "int32"
+      responses:
+        200:
+          description: "Return the user information for the user"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "Admins"
+  /user/{username}:
+    get:
+      tags:
+      - "admins"
+      - "developers"
+      - "users"
+      summary: "get the user with the id following the URI. For example /user/$id"
+      description: "Returns the user with the user id or the username. This should\
+        \ return the JSON string with all of the required stuff. \n"
+      operationId: "getUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "query"
+        description: "The username of the user"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Return the user information for the user"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "Admins"
   /albums:
     get:
       tags:
@@ -108,6 +165,48 @@ paths:
         409:
           description: "an existing item already exists"
       x-swagger-router-controller: "Users"
+  /quotes:
+    get:
+      tags:
+      - "admins"
+      - "developers"
+      summary: "return a list of all quotes in the database"
+      description: "Get the quotes in the system\n"
+      operationId: "getQuotes"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "Return a random quote from the database"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Quote"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "Admins"
+  /quotes/random:
+    get:
+      tags:
+      - "developers"
+      - "users"
+      - "admins"
+      summary: "return a random quote from the database"
+      operationId: "quotesRandomGET"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "Return a random quote from the database"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Quote"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "Developers"
 definitions:
   Album:
     type: "object"
@@ -152,3 +251,17 @@ definitions:
         type: "string"
         format: "url"
         example: "http://aeekay.com"
+  Quote:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int32"
+        example: 324
+      quote:
+        type: "string"
+        example: "Look into the abyss"
+      created:
+        type: "string"
+        format: "int32"
+        example: "2016-08-29T09:12:33.001Z"
